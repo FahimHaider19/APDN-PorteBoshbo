@@ -36,6 +36,7 @@ namespace DAL.Repos
         public bool Update(User obj)
         {
             db.Entry(Get(obj.UserId)).CurrentValues.SetValues(obj);
+            var v = db.SaveChanges();
             return db.SaveChanges() > 0;
         }
     }

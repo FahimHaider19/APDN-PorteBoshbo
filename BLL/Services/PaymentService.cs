@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace BLL.Services
 {
-    internal static class PaymentService
+    public static class PaymentService
     {
         public static List<PaymentDTO> Get()
         {
@@ -22,9 +22,9 @@ namespace BLL.Services
                     PaymentId = payment.PaymentId,
                     Amount = (double)payment.Amount,
                     PaymentMethod = payment.PaymentMethod,
-                    Teacher = UserService.Get((int)payment.TeacherId),
-                    Student = UserService.Get((int)payment.StudentId)
-
+                    Teacher = UserService.GetShort((int)payment.TeacherId),
+                    Student = UserService.GetShort((int)payment.StudentId),
+                    Date = (DateTime)payment.Date
                 });
             }
             return payments;
@@ -37,11 +37,51 @@ namespace BLL.Services
                 PaymentId = paymentdb.PaymentId,
                 Amount = (double)paymentdb.Amount,
                 PaymentMethod = paymentdb.PaymentMethod,
-                Teacher = UserService.Get((int)paymentdb.TeacherId),
-                Student = UserService.Get((int)paymentdb.StudentId)
+                Teacher = UserService.GetShort((int)paymentdb.TeacherId),
+                Student = UserService.GetShort((int)paymentdb.StudentId),
+                Date = (DateTime)paymentdb.Date
             };
             return payment;
         }
+
+        public static List<PaymentDTO> ReceivedPayments(int teacherId)
+        {
+            var payments = new List<PaymentDTO>();
+            var paymentdb = DataAccessFactory.PaymentDataAccess2().ReceivedPayments(teacherId);
+            foreach (var payment in paymentdb)
+            {
+                payments.Add(new PaymentDTO()
+                {
+                    PaymentId = payment.PaymentId,
+                    Amount = (double)payment.Amount,
+                    PaymentMethod = payment.PaymentMethod,
+                    Teacher = UserService.GetShort((int)payment.TeacherId),
+                    Student = UserService.GetShort((int)payment.StudentId),
+                    Date = (DateTime)payment.Date
+                });
+            }
+            return payments;
+        }
+
+        public static List<PaymentDTO> PaidPayments(int studentId)
+        {
+            var payments = new List<PaymentDTO>();
+            var paymentdb = DataAccessFactory.PaymentDataAccess2().PaidPaytments(studentId);
+            foreach (var payment in paymentdb)
+            {
+                payments.Add(new PaymentDTO()
+                {
+                    PaymentId = payment.PaymentId,
+                    Amount = (double)payment.Amount,
+                    PaymentMethod = payment.PaymentMethod,
+                    Teacher = UserService.GetShort((int)payment.TeacherId),
+                    Student = UserService.GetShort((int)payment.StudentId),
+                    Date = (DateTime)payment.Date
+                });
+            }
+            return payments;
+        }
+
         public static bool Add(PaymentDTO payment)
         {
             var paymentdb = new Payment()
@@ -51,6 +91,7 @@ namespace BLL.Services
                 PaymentMethod = payment.PaymentMethod,
                 TeacherId= payment.Teacher.UserId,
                 StudentId = payment.Student.UserId,
+                Date = (DateTime)payment.Date
             };
             return DataAccessFactory.PaymentDataAccess().Add(paymentdb);
         }
@@ -64,6 +105,7 @@ namespace BLL.Services
             paymentdb.PaymentMethod = payment.PaymentMethod;
             paymentdb.TeacherId = payment.Teacher.UserId;
             paymentdb.StudentId = payment.Student.UserId;
+            paymentdb.Date = payment.Date;
 
             return DataAccessFactory.PaymentDataAccess().Add(paymentdb);
         }

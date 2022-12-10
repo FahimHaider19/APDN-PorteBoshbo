@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace BLL.Services
 {
-    internal static class CourseService
+    public static class CourseService
     {
         public static List<CourseDTO> Get()
         {
@@ -49,7 +49,7 @@ namespace BLL.Services
             var coursedb = DataAccessFactory.CourseDataAccess().Get(Course.CourseId);
             coursedb.CourseName = Course.CourseName;
 
-            return DataAccessFactory.CourseDataAccess().Add(coursedb);
+            return DataAccessFactory.CourseDataAccess().Update(coursedb);
         }
         public static bool Delete(int id)
         {

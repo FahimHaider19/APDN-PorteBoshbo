@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace DAL.Repos
 {
-    internal class PaymentRepo : IRepo<Payment>
+    internal class PaymentRepo : IRepo<Payment>, IPayment
     {
         private PorteBoshboEntities db = new PorteBoshboEntities();
         public bool Add(Payment obj)
@@ -20,6 +20,23 @@ namespace DAL.Repos
         public Payment Get(int id)
         {
             return db.Payments.Find(id);
+        }
+
+        public List<Payment> ReceivedPayments(int teacherId)
+        {
+            var payments = (from p in db.Payments
+                          where p.TeacherId==teacherId
+                          select p).ToList();
+            return payments;
+        }
+
+
+        public List<Payment> PaidPaytments(int stundetId)
+        {
+            var payments = (from p in db.Payments
+                            where p.StudentId== stundetId
+                            select p).ToList();
+            return payments;
         }
 
         public List<Payment> GetAll()

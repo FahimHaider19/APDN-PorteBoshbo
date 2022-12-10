@@ -14,6 +14,12 @@ namespace DAL.EF
     
     public partial class Topic
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Topic()
+        {
+            this.UserTopics = new HashSet<UserTopic>();
+        }
+    
         public int TopicId { get; set; }
         public string TopicName { get; set; }
         public Nullable<int> EducationLevelId { get; set; }
@@ -23,5 +29,7 @@ namespace DAL.EF
         public virtual Course Course { get; set; }
         public virtual Department Department { get; set; }
         public virtual EducationLevel EducationLevel { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<UserTopic> UserTopics { get; set; }
     }
 }

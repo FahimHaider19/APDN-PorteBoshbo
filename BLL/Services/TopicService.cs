@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace BLL.Services
 {
-    internal static class TopicService
+    public static class TopicService
     {
         public static List<TopicDTO> Get()
         {
@@ -40,6 +40,23 @@ namespace BLL.Services
                 Course = CourseService.Get((int)topicdb.CourseId)
             };
             return topic;
+        }
+        public static List<TopicDTO> GetUserTopics(int userId)
+        {
+            var topics = new List<TopicDTO>();
+            var topicdb = DataAccessFactory.TopicDataAccess().GetAll();
+            foreach (var topic in topicdb)
+            {
+                topics.Add(new TopicDTO()
+                {
+                    TopicId = topic.TopicId,
+                    TopicName = topic.TopicName,
+                    EducationLevel = EducationLevelService.Get(topic.TopicId),
+                    Department = DepartmentService.Get((int)topic.DepartmentId),
+                    Course = CourseService.Get((int)topic.CourseId)
+                });
+            }
+            return topics;
         }
         public static bool Add(TopicDTO topic)
         {

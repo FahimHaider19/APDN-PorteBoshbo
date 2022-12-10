@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace BLL.Services
 {
-    internal static class ReviewService
+    public static class ReviewService
     {
         public static List<ReviewDTO> Get()
         {
@@ -22,8 +22,8 @@ namespace BLL.Services
                     ReviewId= review.ReviewId,
                     ReviewText=review.ReviewText,
                     Rating= (double)review.Rating,
-                    Teacher= UserService.Get((int)review.TeacherId),
-                    Student= UserService.Get((int)review.StudentId),
+                    Teacher= UserService.GetShort((int)review.TeacherId),
+                    Student= UserService.GetShort((int)review.StudentId),
                     Topic= TopicService.Get((int)review.TopicId),
                 });
             }
@@ -37,12 +37,51 @@ namespace BLL.Services
                 ReviewId = reviewdb.ReviewId,
                 ReviewText = reviewdb.ReviewText,
                 Rating = (double)reviewdb.Rating,
-                Teacher = UserService.Get((int)reviewdb.TeacherId),
-                Student = UserService.Get((int)reviewdb.StudentId),
+                Teacher = UserService.GetShort((int)reviewdb.TeacherId),
+                Student = UserService.GetShort((int)reviewdb.StudentId),
                 Topic = TopicService.Get((int)reviewdb.TopicId),
             };
             return review;
         }
+
+        public static List<ReviewDTO> ReceivedReviews(int teacherId)
+        {
+            var reviews = new List<ReviewDTO>();
+            var reviewdb = DataAccessFactory.ReviewDataAccess2().ReceivedReviews(teacherId);
+            foreach (var review in reviewdb)
+            {
+                reviews.Add(new ReviewDTO()
+                {
+                    ReviewId = review.ReviewId,
+                    ReviewText = review.ReviewText,
+                    Rating = (double)review.Rating,
+                    Teacher = UserService.GetShort((int)review.TeacherId),
+                    Student = UserService.GetShort((int)review.StudentId),
+                    Topic = TopicService.Get((int)review.TopicId),
+                });
+            }
+            return reviews;
+        }
+
+        public static List<ReviewDTO> SubmittedReviews(int studentId)
+        {
+            var reviews = new List<ReviewDTO>();
+            var reviewdb = DataAccessFactory.ReviewDataAccess2().ReceivedReviews(studentId);
+            foreach (var review in reviewdb)
+            {
+                reviews.Add(new ReviewDTO()
+                {
+                    ReviewId = review.ReviewId,
+                    ReviewText = review.ReviewText,
+                    Rating = (double)review.Rating,
+                    Teacher = UserService.GetShort((int)review.TeacherId),
+                    Student = UserService.GetShort((int)review.StudentId),
+                    Topic = TopicService.Get((int)review.TopicId),
+                });
+            }
+            return reviews;
+        }
+
         public static bool Add(ReviewDTO review)
         {
             var reviewdb = new Review()

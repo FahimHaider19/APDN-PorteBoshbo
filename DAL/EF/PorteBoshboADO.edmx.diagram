@@ -25,6 +25,9 @@
         <AssociationConnector Association="PorteBoshboModel.FK_Review_Teacher" ManuallyRouted="false" />
         <AssociationConnector Association="PorteBoshboModel.FK_Session_Student" ManuallyRouted="false" />
         <AssociationConnector Association="PorteBoshboModel.FK_Session_Teacher" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="PorteBoshboModel.UserTopic" Width="1.5" PointX="11.25" PointY="6.75" />
+        <AssociationConnector Association="PorteBoshboModel.FK_UserTopic_Topic" />
+        <AssociationConnector Association="PorteBoshboModel.FK_UserTopic_User" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

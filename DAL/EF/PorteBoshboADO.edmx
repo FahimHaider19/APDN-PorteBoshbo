@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="PorteBoshboModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="PorteBoshboModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Course">
           <Key>
             <PropertyRef Name="CourseId" />
@@ -31,10 +31,11 @@
             <PropertyRef Name="PaymentId" />
           </Key>
           <Property Name="PaymentId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="TeacherId" Type="int" />
-          <Property Name="StudentId" Type="int" />
           <Property Name="Amount" Type="float" />
           <Property Name="PaymentMethod" Type="varchar" MaxLength="50" />
+          <Property Name="TeacherId" Type="int" />
+          <Property Name="StudentId" Type="int" />
+          <Property Name="Date" Type="datetime2" Precision="7" />
         </EntityType>
         <EntityType Name="Review">
           <Key>
@@ -93,6 +94,14 @@
           <Property Name="IsTeacher" Type="bit" />
           <Property Name="DepartmentId" Type="int" />
           <Property Name="EducationLevelId" Type="int" />
+        </EntityType>
+        <EntityType Name="UserTopic">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="TopicId" Type="int" />
+          <Property Name="TeacherId" Type="int" />
         </EntityType>
         <Association Name="FK_Payment_Student">
           <End Role="User" Type="Self.User" Multiplicity="0..1" />
@@ -226,6 +235,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_UserTopic_Topic">
+          <End Role="Topic" Type="Self.Topic" Multiplicity="0..1" />
+          <End Role="UserTopic" Type="Self.UserTopic" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Topic">
+              <PropertyRef Name="TopicId" />
+            </Principal>
+            <Dependent Role="UserTopic">
+              <PropertyRef Name="TopicId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserTopic_User">
+          <End Role="User" Type="Self.User" Multiplicity="0..1" />
+          <End Role="UserTopic" Type="Self.UserTopic" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="UserTopic">
+              <PropertyRef Name="TeacherId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="PorteBoshboModelStoreContainer">
           <EntitySet Name="Course" EntityType="Self.Course" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Department" EntityType="Self.Department" Schema="dbo" store:Type="Tables" />
@@ -236,6 +269,7 @@
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Topic" EntityType="Self.Topic" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserTopic" EntityType="Self.UserTopic" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_Payment_Student" Association="Self.FK_Payment_Student">
             <End Role="User" EntitySet="User" />
             <End Role="Payment" EntitySet="Payment" />
@@ -280,9 +314,16 @@
             <End Role="EducationLevel" EntitySet="EducationLevel" />
             <End Role="User" EntitySet="User" />
           </AssociationSet>
+          <AssociationSet Name="FK_UserTopic_Topic" Association="Self.FK_UserTopic_Topic">
+            <End Role="Topic" EntitySet="Topic" />
+            <End Role="UserTopic" EntitySet="UserTopic" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserTopic_User" Association="Self.FK_UserTopic_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="UserTopic" EntitySet="UserTopic" />
+          </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="PorteBoshboModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -323,6 +364,7 @@
           <Property Name="PaymentMethod" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="User" Relationship="Self.FK_Payment_Student" FromRole="Payment" ToRole="User" />
           <NavigationProperty Name="User1" Relationship="Self.FK_Payment_Teacher" FromRole="Payment" ToRole="User" />
+          <Property Name="Date" Type="DateTime" Precision="7" />
         </EntityType>
         <EntityType Name="Review">
           <Key>
@@ -372,6 +414,7 @@
           <NavigationProperty Name="Course" Relationship="Self.FK_Topic_Course" FromRole="Topic" ToRole="Course" />
           <NavigationProperty Name="Department" Relationship="Self.FK_Topic_Department" FromRole="Topic" ToRole="Department" />
           <NavigationProperty Name="EducationLevel" Relationship="Self.FK_Topic_EducationLevel" FromRole="Topic" ToRole="EducationLevel" />
+          <NavigationProperty Name="UserTopics" Relationship="PorteBoshboModel.FK_UserTopic_Topic" FromRole="Topic" ToRole="UserTopic" />
         </EntityType>
         <EntityType Name="User">
           <Key>
@@ -396,6 +439,7 @@
           <NavigationProperty Name="Reviews1" Relationship="Self.FK_Review_Teacher" FromRole="User" ToRole="Review" />
           <NavigationProperty Name="Sessions" Relationship="Self.FK_Session_Student" FromRole="User" ToRole="Session" />
           <NavigationProperty Name="Sessions1" Relationship="Self.FK_Session_Teacher" FromRole="User" ToRole="Session" />
+          <NavigationProperty Name="UserTopics" Relationship="PorteBoshboModel.FK_UserTopic_User" FromRole="User" ToRole="UserTopic" />
         </EntityType>
         <Association Name="FK_Topic_Course">
           <End Role="Course" Type="Self.Course" Multiplicity="0..1" />
@@ -583,7 +627,50 @@
             <End Role="User" EntitySet="Users" />
             <End Role="Session" EntitySet="Sessions" />
           </AssociationSet>
+          <EntitySet Name="UserTopics" EntityType="PorteBoshboModel.UserTopic" />
+          <AssociationSet Name="FK_UserTopic_Topic" Association="PorteBoshboModel.FK_UserTopic_Topic">
+            <End Role="Topic" EntitySet="Topics" />
+            <End Role="UserTopic" EntitySet="UserTopics" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserTopic_User" Association="PorteBoshboModel.FK_UserTopic_User">
+            <End Role="User" EntitySet="Users" />
+            <End Role="UserTopic" EntitySet="UserTopics" />
+          </AssociationSet>
         </EntityContainer>
+        <EntityType Name="UserTopic">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="TopicId" Type="Int32" />
+          <Property Name="TeacherId" Type="Int32" />
+          <NavigationProperty Name="Topic" Relationship="PorteBoshboModel.FK_UserTopic_Topic" FromRole="UserTopic" ToRole="Topic" />
+          <NavigationProperty Name="User" Relationship="PorteBoshboModel.FK_UserTopic_User" FromRole="UserTopic" ToRole="User" />
+        </EntityType>
+        <Association Name="FK_UserTopic_Topic">
+          <End Type="PorteBoshboModel.Topic" Role="Topic" Multiplicity="0..1" />
+          <End Type="PorteBoshboModel.UserTopic" Role="UserTopic" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Topic">
+              <PropertyRef Name="TopicId" />
+            </Principal>
+            <Dependent Role="UserTopic">
+              <PropertyRef Name="TopicId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserTopic_User">
+          <End Type="PorteBoshboModel.User" Role="User" Multiplicity="0..1" />
+          <End Type="PorteBoshboModel.UserTopic" Role="UserTopic" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="UserTopic">
+              <PropertyRef Name="TeacherId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -617,6 +704,7 @@
           <EntitySetMapping Name="Payments">
             <EntityTypeMapping TypeName="PorteBoshboModel.Payment">
               <MappingFragment StoreEntitySet="Payment">
+                <ScalarProperty Name="Date" ColumnName="Date" />
                 <ScalarProperty Name="PaymentId" ColumnName="PaymentId" />
                 <ScalarProperty Name="TeacherId" ColumnName="TeacherId" />
                 <ScalarProperty Name="StudentId" ColumnName="StudentId" />
@@ -685,6 +773,15 @@
                 <ScalarProperty Name="IsTeacher" ColumnName="IsTeacher" />
                 <ScalarProperty Name="DepartmentId" ColumnName="DepartmentId" />
                 <ScalarProperty Name="EducationLevelId" ColumnName="EducationLevelId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserTopics">
+            <EntityTypeMapping TypeName="PorteBoshboModel.UserTopic">
+              <MappingFragment StoreEntitySet="UserTopic">
+                <ScalarProperty Name="TeacherId" ColumnName="TeacherId" />
+                <ScalarProperty Name="TopicId" ColumnName="TopicId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

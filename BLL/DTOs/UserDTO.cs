@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DAL.EF;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -24,7 +25,8 @@ namespace BLL.DTOs
         public DepartmentDTO Department { get; set; }
         public EducationLevelDTO EducationLevel { get; set; }
         public List<ReviewDTO> SubmittedReviews { get; set; }
-        public List<ReviewDTO> TeacherReviews { get; set; }
+        public List<ReviewDTO> ReceivedReviews { get; set; }
+        public List<SessionDTO> Sessions { get; set; }
 
     }
 }

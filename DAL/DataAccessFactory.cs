@@ -28,11 +28,23 @@ namespace DAL
         {
             return new PaymentRepo();
         }
+        public static IPayment PaymentDataAccess2()
+        {
+            return new PaymentRepo();
+        }
         public static IRepo<Review> ReviewDataAccess()
         {
             return new ReviewRepo();
         }
+        public static IReview ReviewDataAccess2()
+        {
+            return new ReviewRepo();
+        }
         public static IRepo<Session> SessionDataAccess()
+        {
+            return new SessionRepo();
+        }
+        public static ISession SessionDataAccess2()
         {
             return new SessionRepo();
         }

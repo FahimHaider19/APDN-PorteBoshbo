@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace BLL.Services
 {
-    internal static class EducationLevelService
+    public static class EducationLevelService
     {
         public static List<EducationLevelDTO> Get()
         {

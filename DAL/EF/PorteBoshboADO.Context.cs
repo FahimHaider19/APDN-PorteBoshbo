@@ -34,5 +34,6 @@ namespace DAL.EF
         public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
         public virtual DbSet<Topic> Topics { get; set; }
         public virtual DbSet<User> Users { get; set; }
+        public virtual DbSet<UserTopic> UserTopics { get; set; }
     }
 }

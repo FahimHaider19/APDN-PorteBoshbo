@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace BLL.Services
 {
-    internal static class SessionService
+    public static class SessionService
     {
         public static List<SessionDTO> Get()
         {
@@ -23,8 +23,8 @@ namespace BLL.Services
                     SessionStart= (DateTime)session.SessionStart,
                     SessionEnd= (DateTime)session.SessionEnd,
                     Link= session.Link,
-                    Teacher = UserService.Get((int)session.TeacherId),
-                    Student = UserService.Get((int)session.StudentId),
+                    Teacher = UserService.GetShort((int)session.TeacherId),
+                    Student = UserService.GetShort((int)session.StudentId),
                 });
             }
             return sessions;
@@ -38,10 +38,29 @@ namespace BLL.Services
                 SessionStart = (DateTime)sessiondb.SessionStart,
                 SessionEnd = (DateTime)sessiondb.SessionEnd,
                 Link = sessiondb.Link,
-                Teacher = UserService.Get((int)sessiondb.TeacherId),
-                Student = UserService.Get((int)sessiondb.StudentId),
+                Teacher = UserService.GetShort((int)sessiondb.TeacherId),
+                Student = UserService.GetShort((int)sessiondb.StudentId),
             };
             return session;
+        }
+
+        public static List<SessionDTO> GetUserSessions(int userId)
+        {
+            var sessions = new List<SessionDTO>();
+            var sessiondb = DataAccessFactory.SessionDataAccess2().GetUserSessions(userId);
+            foreach (var session in sessiondb)
+            {
+                sessions.Add(new SessionDTO()
+                {
+                    SessionId = session.SessionId,
+                    SessionStart = (DateTime)session.SessionStart,
+                    SessionEnd = (DateTime)session.SessionEnd,
+                    Link = session.Link,
+                    Teacher = UserService.GetShort((int)session.TeacherId),
+                    Student = UserService.GetShort((int)session.StudentId),
+                });
+            }
+            return sessions;
         }
         public static bool Add(SessionDTO session)
         {

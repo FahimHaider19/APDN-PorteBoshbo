@@ -23,6 +23,7 @@ namespace DAL.EF
             this.Reviews1 = new HashSet<Review>();
             this.Sessions = new HashSet<Session>();
             this.Sessions1 = new HashSet<Session>();
+            this.UserTopics = new HashSet<UserTopic>();
         }
     
         public int UserId { get; set; }
@@ -51,5 +52,7 @@ namespace DAL.EF
         public virtual ICollection<Session> Sessions { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Session> Sessions1 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<UserTopic> UserTopics { get; set; }
     }
 }

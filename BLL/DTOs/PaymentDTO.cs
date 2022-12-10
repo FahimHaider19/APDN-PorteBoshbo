@@ -13,5 +13,6 @@ namespace BLL.DTOs
         public UserDTO Student { get; set; }
         public double Amount { get; set; }
         public string PaymentMethod { get; set; }
+        public DateTime Date { get; set; }
     }
 }

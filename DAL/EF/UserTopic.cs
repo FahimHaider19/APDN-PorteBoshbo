@@ -12,16 +12,13 @@ namespace DAL.EF
     using System;
     using System.Collections.Generic;
     
-    public partial class Payment
+    public partial class UserTopic
     {
-        public int PaymentId { get; set; }
+        public int Id { get; set; }
+        public Nullable<int> TopicId { get; set; }
         public Nullable<int> TeacherId { get; set; }
-        public Nullable<int> StudentId { get; set; }
-        public Nullable<double> Amount { get; set; }
-        public string PaymentMethod { get; set; }
-        public Nullable<System.DateTime> Date { get; set; }
     
+        public virtual Topic Topic { get; set; }
         public virtual User User { get; set; }
-        public virtual User User1 { get; set; }
     }
 }

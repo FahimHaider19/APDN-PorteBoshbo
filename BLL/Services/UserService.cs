@@ -11,7 +11,7 @@ using System.Xml.Linq;
 
 namespace BLL.Services
 {
-    internal static class UserService
+    public static class UserService
     {
         public static List<UserDTO> Get()
         {
@@ -29,7 +29,12 @@ namespace BLL.Services
                     Role= user.Role,
                     Balance= (double)user.Balance,
                     Department= DepartmentService.Get((int)user.DepartmentId),
-                    EducationLevel = EducationLevelService.Get((int)user.DepartmentId)
+                    EducationLevel= EducationLevelService.Get((int)user.EducationLevelId),
+                    ReceivedPayments= PaymentService.ReceivedPayments(user.UserId),
+                    PaidPayments= PaymentService.PaidPayments(user.UserId),
+                    ReceivedReviews = ReviewService.ReceivedReviews(user.UserId),
+                    SubmittedReviews = ReviewService.SubmittedReviews(user.UserId),
+                    Sessions= SessionService.GetUserSessions(user.UserId)
                 });
             }
             return users;
@@ -47,10 +52,32 @@ namespace BLL.Services
                 Role = userdb.Role,
                 Balance = (double)userdb.Balance,
                 Department = DepartmentService.Get((int)userdb.DepartmentId),
+                EducationLevel = EducationLevelService.Get((int)userdb.DepartmentId),
+                ReceivedPayments = PaymentService.ReceivedPayments(userdb.UserId),
+                PaidPayments = PaymentService.PaidPayments(userdb.UserId),
+                ReceivedReviews = ReviewService.ReceivedReviews(userdb.UserId),
+                SubmittedReviews = ReviewService.SubmittedReviews(userdb.UserId)
+            };
+            return user;
+        }
+        public static UserDTO GetShort(int id)
+        {
+            var userdb = DataAccessFactory.UserDataAccess().Get(id);
+            var user = new UserDTO()
+            {
+                UserId = userdb.UserId,
+                Name = userdb.Name,
+                Username = userdb.Username,
+                Email = userdb.Email,
+                Password = userdb.Password,
+                Role = userdb.Role,
+                Balance = (double)userdb.Balance,
+                Department = DepartmentService.Get((int)userdb.DepartmentId),
                 EducationLevel = EducationLevelService.Get((int)userdb.DepartmentId)
             };
             return user;
         }
+
         public static bool Add(UserDTO user)
         {
             var userdb = new User()
@@ -80,7 +107,7 @@ namespace BLL.Services
             userdb.DepartmentId = user.Department.DepartmentId;
             userdb.EducationLevelId = user.EducationLevel.EducationLevelId;
 
-            return DataAccessFactory.UserDataAccess().Add(userdb);
+            return DataAccessFactory.UserDataAccess().Update(userdb);
         }
         public static bool Delete(int id)
         {
