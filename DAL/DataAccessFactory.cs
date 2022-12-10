@@ -19,5 +19,30 @@ namespace DAL
         {
             return new DepartmentRepo();
         }
+
+        public static IRepo<EducationLevel> EducationLevelDataAccess()
+        {
+            return new EducationLevelRepo();
+        }
+        public static IRepo<Payment> PaymentDataAccess()
+        {
+            return new PaymentRepo();
+        }
+        public static IRepo<Review> ReviewDataAccess()
+        {
+            return new ReviewRepo();
+        }
+        public static IRepo<Session> SessionDataAccess()
+        {
+            return new SessionRepo();
+        }
+        public static IRepo<Topic> TopicDataAccess()
+        {
+            return new TopicRepo();
+        }
+        public static IRepo<User> UserDataAccess()
+        {
+            return new UserRepo();
+        }
     }
 }

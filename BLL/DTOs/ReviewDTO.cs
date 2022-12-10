@@ -10,7 +10,7 @@ namespace BLL.DTOs
     {
         public int ReviewId { get; set; }
         public string ReviewText { get; set; }
-        public float Rating { get; set; }
+        public double Rating { get; set; }
         public UserDTO Teacher { get; set; }
         public UserDTO Student { get; set; }
         public TopicDTO Topic { get; set; }

@@ -10,29 +10,33 @@ namespace DAL.Repos
 {
     internal class PaymentRepo : IRepo<Payment>
     {
+        private PorteBoshboEntities db = new PorteBoshboEntities();
         public bool Add(Payment obj)
         {
-            throw new NotImplementedException();
+            db.Payments.Add(obj);
+            return db.SaveChanges() > 0;
         }
 
         public Payment Get(int id)
         {
-            throw new NotImplementedException();
+            return db.Payments.Find(id);
         }
 
         public List<Payment> GetAll()
         {
-            throw new NotImplementedException();
+            return db.Payments.ToList();
         }
 
         public bool Remove(int id)
         {
-            throw new NotImplementedException();
+            db.Payments.Remove(Get(id));
+            return db.SaveChanges() > 0;
         }
 
         public bool Update(Payment obj)
         {
-            throw new NotImplementedException();
+            db.Entry(Get(obj.PaymentId)).CurrentValues.SetValues(obj);
+            return db.SaveChanges() > 0;
         }
     }
 }

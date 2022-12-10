@@ -1,4 +1,7 @@
-﻿using System;
+﻿using BLL.DTOs;
+using DAL.EF;
+using DAL;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +9,67 @@ using System.Threading.Tasks;
 
 namespace BLL.Services
 {
-    internal class ReviewService
+    internal static class ReviewService
     {
+        public static List<ReviewDTO> Get()
+        {
+            var reviews = new List<ReviewDTO>();
+            var reviewdb = DataAccessFactory.ReviewDataAccess().GetAll();
+            foreach (var review in reviewdb)
+            {
+                reviews.Add(new ReviewDTO()
+                {
+                    ReviewId= review.ReviewId,
+                    ReviewText=review.ReviewText,
+                    Rating= (double)review.Rating,
+                    Teacher= UserService.Get((int)review.TeacherId),
+                    Student= UserService.Get((int)review.StudentId),
+                    Topic= TopicService.Get((int)review.TopicId),
+                });
+            }
+            return reviews;
+        }
+        public static ReviewDTO Get(int id)
+        {
+            var reviewdb = DataAccessFactory.ReviewDataAccess().Get(id);
+            var review = new ReviewDTO()
+            {
+                ReviewId = reviewdb.ReviewId,
+                ReviewText = reviewdb.ReviewText,
+                Rating = (double)reviewdb.Rating,
+                Teacher = UserService.Get((int)reviewdb.TeacherId),
+                Student = UserService.Get((int)reviewdb.StudentId),
+                Topic = TopicService.Get((int)reviewdb.TopicId),
+            };
+            return review;
+        }
+        public static bool Add(ReviewDTO review)
+        {
+            var reviewdb = new Review()
+            {
+                ReviewId = review.ReviewId,
+                ReviewText = review.ReviewText,
+                Rating = (double)review.Rating,
+                TeacherId = review.Teacher.UserId,
+                StudentId = review.Student.UserId,
+                TopicId = review.Topic.TopicId
+            };
+            return DataAccessFactory.ReviewDataAccess().Add(reviewdb);
+        }
+        public static bool Update(ReviewDTO review)
+        {
+            var reviewdb = DataAccessFactory.ReviewDataAccess().Get(review.ReviewId);
+            reviewdb.ReviewText = review.ReviewText;
+            reviewdb.Rating = (double)review.Rating;
+            reviewdb.TeacherId = review.Teacher.UserId;
+            reviewdb.StudentId = review.Student.UserId;
+            reviewdb.TopicId = review.Topic.TopicId;
+
+            return DataAccessFactory.ReviewDataAccess().Add(reviewdb);
+        }
+        public static bool Delete(int id)
+        {
+            return DataAccessFactory.ReviewDataAccess().Remove(id);
+        }
     }
 }

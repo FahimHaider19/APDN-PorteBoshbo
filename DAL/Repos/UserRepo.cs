@@ -10,29 +10,33 @@ namespace DAL.Repos
 {
     internal class UserRepo : IRepo<User>
     {
+        private PorteBoshboEntities db = new PorteBoshboEntities();
         public bool Add(User obj)
         {
-            throw new NotImplementedException();
+            db.Users.Add(obj);
+            return db.SaveChanges() > 0;
         }
 
         public User Get(int id)
         {
-            throw new NotImplementedException();
+            return db.Users.Find(id);
         }
 
         public List<User> GetAll()
         {
-            throw new NotImplementedException();
+            return db.Users.ToList();
         }
 
         public bool Remove(int id)
         {
-            throw new NotImplementedException();
+            db.Users.Remove(Get(id));
+            return db.SaveChanges() > 0;
         }
 
         public bool Update(User obj)
         {
-            throw new NotImplementedException();
+            db.Entry(Get(obj.UserId)).CurrentValues.SetValues(obj);
+            return db.SaveChanges() > 0;
         }
     }
 }

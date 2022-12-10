@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 
 namespace BLL.Services
 {
-    internal class CourseService
+    internal static class CourseService
     {
-        public List<CourseDTO> Get()
+        public static List<CourseDTO> Get()
         {
             var courses = new List<CourseDTO>();
             var coursedb = DataAccessFactory.CourseDataAccess().GetAll();
@@ -25,7 +25,7 @@ namespace BLL.Services
             }
             return courses;
         }
-        public CourseDTO Get(int id)
+        public static CourseDTO Get(int id)
         {
             var coursedb = DataAccessFactory.CourseDataAccess().Get(id);
             var course = new CourseDTO()
@@ -35,23 +35,23 @@ namespace BLL.Services
             };
             return course;
         }
-        public bool Add(CourseDTO Course)
+        public static bool Add(CourseDTO course)
         {
             var coursedb = new Course()
             {
-                CourseId = Course.CourseId,
-                CourseName = Course.CourseName
+                CourseId = course.CourseId,
+                CourseName = course.CourseName
             };
             return DataAccessFactory.CourseDataAccess().Add(coursedb);
         }
-        public bool Update(CourseDTO Course)
+        public static bool Update(CourseDTO Course)
         {
             var coursedb = DataAccessFactory.CourseDataAccess().Get(Course.CourseId);
             coursedb.CourseName = Course.CourseName;
 
             return DataAccessFactory.CourseDataAccess().Add(coursedb);
         }
-        public bool Delete(int id)
+        public static bool Delete(int id)
         {
             return DataAccessFactory.CourseDataAccess().Remove(id);
         }

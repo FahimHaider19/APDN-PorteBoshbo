@@ -10,29 +10,33 @@ namespace DAL.Repos
 {
     internal class DepartmentRepo : IRepo<Department>
     {
+        private PorteBoshboEntities db = new PorteBoshboEntities();
         public bool Add(Department obj)
         {
-            throw new NotImplementedException();
+            db.Departments.Add(obj);
+            return db.SaveChanges() > 0;
         }
 
         public Department Get(int id)
         {
-            throw new NotImplementedException();
+            return db.Departments.Find(id);
         }
 
         public List<Department> GetAll()
         {
-            throw new NotImplementedException();
+            return db.Departments.ToList();
         }
 
         public bool Remove(int id)
         {
-            throw new NotImplementedException();
+            db.Departments.Remove(Get(id));
+            return db.SaveChanges() > 0;
         }
 
         public bool Update(Department obj)
         {
-            throw new NotImplementedException();
+            db.Entry(Get(obj.DepartmentId)).CurrentValues.SetValues(obj);
+            return db.SaveChanges() > 0;
         }
     }
 }

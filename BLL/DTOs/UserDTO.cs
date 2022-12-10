@@ -15,7 +15,7 @@ namespace BLL.DTOs
         public string Password { get; set; }
         //public string PasswordConfirmed { get; set; }
         public string Role { get; set;}
-        public float Balance { get; set; }
+        public double Balance { get; set; }
         //public bool IsStudent { get; set; }
         //public bool IsTeacher { get; set; }
         public List<PaymentDTO> ReceivedPayments { get; set; }

@@ -10,29 +10,33 @@ namespace DAL.Repos
 {
     internal class EducationLevelRepo : IRepo<EducationLevel>
     {
+        private PorteBoshboEntities db = new PorteBoshboEntities();
         public bool Add(EducationLevel obj)
         {
-            throw new NotImplementedException();
+            db.EducationLevels.Add(obj);
+            return db.SaveChanges() > 0;
         }
 
         public EducationLevel Get(int id)
         {
-            throw new NotImplementedException();
+            return db.EducationLevels.Find(id);
         }
 
         public List<EducationLevel> GetAll()
         {
-            throw new NotImplementedException();
+            return db.EducationLevels.ToList();
         }
 
         public bool Remove(int id)
         {
-            throw new NotImplementedException();
+            db.EducationLevels.Remove(Get(id));
+            return db.SaveChanges() > 0;
         }
 
         public bool Update(EducationLevel obj)
         {
-            throw new NotImplementedException();
+            db.Entry(Get(obj.EducationLevelId)).CurrentValues.SetValues(obj);
+            return db.SaveChanges() > 0;
         }
     }
 }

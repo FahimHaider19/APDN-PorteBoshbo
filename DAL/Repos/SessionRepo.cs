@@ -10,29 +10,33 @@ namespace DAL.Repos
 {
     internal class SessionRepo : IRepo<Session>
     {
+        private PorteBoshboEntities db = new PorteBoshboEntities();
         public bool Add(Session obj)
         {
-            throw new NotImplementedException();
+            db.Sessions.Add(obj);
+            return db.SaveChanges() > 0;
         }
 
         public Session Get(int id)
         {
-            throw new NotImplementedException();
+            return db.Sessions.Find(id);
         }
 
         public List<Session> GetAll()
         {
-            throw new NotImplementedException();
+            return db.Sessions.ToList();
         }
 
         public bool Remove(int id)
         {
-            throw new NotImplementedException();
+            db.Sessions.Remove(Get(id));
+            return db.SaveChanges() > 0;
         }
 
         public bool Update(Session obj)
         {
-            throw new NotImplementedException();
+            db.Entry(Get(obj.SessionId)).CurrentValues.SetValues(obj);
+            return db.SaveChanges() > 0;
         }
     }
 }

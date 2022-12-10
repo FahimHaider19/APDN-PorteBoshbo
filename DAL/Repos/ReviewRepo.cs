@@ -10,29 +10,33 @@ namespace DAL.Repos
 {
     internal class ReviewRepo : IRepo<Review>
     {
+        private PorteBoshboEntities db = new PorteBoshboEntities();
         public bool Add(Review obj)
         {
-            throw new NotImplementedException();
+            db.Reviews.Add(obj);
+            return db.SaveChanges() > 0;
         }
 
         public Review Get(int id)
         {
-            throw new NotImplementedException();
+            return db.Reviews.Find(id);
         }
 
         public List<Review> GetAll()
         {
-            throw new NotImplementedException();
+            return db.Reviews.ToList();
         }
 
         public bool Remove(int id)
         {
-            throw new NotImplementedException();
+            db.Reviews.Remove(Get(id));
+            return db.SaveChanges() > 0;
         }
 
         public bool Update(Review obj)
         {
-            throw new NotImplementedException();
+            db.Entry(Get(obj.ReviewId)).CurrentValues.SetValues(obj);
+            return db.SaveChanges() > 0;
         }
     }
 }

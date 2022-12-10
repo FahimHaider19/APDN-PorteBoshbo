@@ -8,10 +8,10 @@ namespace BLL.DTOs
 {
     public class PaymentDTO
     {
-        public int PaymentnId { get; set; }
+        public int PaymentId { get; set; }
         public UserDTO Teacher { get; set; }
         public UserDTO Student { get; set; }
-        public float Amount { get; set; }
+        public double Amount { get; set; }
         public string PaymentMethod { get; set; }
     }
 }
