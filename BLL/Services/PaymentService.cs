@@ -107,7 +107,7 @@ namespace BLL.Services
             paymentdb.StudentId = payment.Student.UserId;
             paymentdb.Date = payment.Date;
 
-            return DataAccessFactory.PaymentDataAccess().Add(paymentdb);
+            return DataAccessFactory.PaymentDataAccess().Update(paymentdb);
         }
         public static bool Delete(int id)
         {

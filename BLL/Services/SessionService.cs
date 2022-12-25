@@ -85,7 +85,7 @@ namespace BLL.Services
             sessiondb.TeacherId = session.Teacher.UserId;
             sessiondb.StudentId = session.Student.UserId;
 
-            return DataAccessFactory.SessionDataAccess().Add(sessiondb);
+            return DataAccessFactory.SessionDataAccess().Update(sessiondb);
         }
         public static bool Delete(int id)
         {

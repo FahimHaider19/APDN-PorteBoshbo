@@ -49,7 +49,7 @@ namespace BLL.Services
             var departmentdb = DataAccessFactory.DepartmentDataAccess().Get(Department.DepartmentId);
             departmentdb.DepartmentName = Department.DepartmentName;
 
-            return DataAccessFactory.DepartmentDataAccess().Add(departmentdb);
+            return DataAccessFactory.DepartmentDataAccess().Update(departmentdb);
         }
         public static bool Delete(int id)
         {

@@ -79,7 +79,7 @@ namespace BLL.Services
             topicdb.DepartmentId = topic.Department.DepartmentId;
             topicdb.CourseId = topic.Course.CourseId;
 
-            return DataAccessFactory.TopicDataAccess().Add(topicdb);
+            return DataAccessFactory.TopicDataAccess().Update(topicdb);
         }
         public static bool Delete(int id)
         {

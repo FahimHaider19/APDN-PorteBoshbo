@@ -49,7 +49,7 @@ namespace BLL.Services
             var educationLeveldb = DataAccessFactory.EducationLevelDataAccess().Get(educationLevel.EducationLevelId);
             educationLeveldb.EducationLevelName = educationLevel.EducationLevelName;
 
-            return DataAccessFactory.EducationLevelDataAccess().Add(educationLeveldb);
+            return DataAccessFactory.EducationLevelDataAccess().Update(educationLeveldb);
         }
         public static bool Delete(int id)
         {

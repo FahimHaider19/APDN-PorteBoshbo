@@ -104,7 +104,7 @@ namespace BLL.Services
             reviewdb.StudentId = review.Student.UserId;
             reviewdb.TopicId = review.Topic.TopicId;
 
-            return DataAccessFactory.ReviewDataAccess().Add(reviewdb);
+            return DataAccessFactory.ReviewDataAccess().Update(reviewdb);
         }
         public static bool Delete(int id)
         {
