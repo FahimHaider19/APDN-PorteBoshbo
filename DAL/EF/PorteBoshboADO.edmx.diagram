@@ -28,6 +28,8 @@
         <EntityTypeShape EntityType="PorteBoshboModel.UserTopic" Width="1.5" PointX="11.25" PointY="6.75" />
         <AssociationConnector Association="PorteBoshboModel.FK_UserTopic_Topic" />
         <AssociationConnector Association="PorteBoshboModel.FK_UserTopic_User" />
+        <EntityTypeShape EntityType="PorteBoshboModel.Token" Width="1.5" PointX="3.375" PointY="0.75" />
+        <AssociationConnector Association="PorteBoshboModel.FK_Tokens_User" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

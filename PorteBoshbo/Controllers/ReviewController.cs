@@ -11,6 +11,21 @@ namespace PorteBoshbo.Controllers
 {
     public class ReviewController : ApiController
     {
+        [Route("api/reviews/update")]
+        [HttpOptions]
+        public HttpResponseMessage UpdateOptions()
+        {
+            return new HttpResponseMessage { StatusCode = HttpStatusCode.OK };
+        }
+        [Route("api/reviews/add")]
+        [HttpOptions]
+        public HttpResponseMessage AddOptions()
+        {
+            return new HttpResponseMessage { StatusCode = HttpStatusCode.OK };
+        }
+
+
+
         [Route("api/reviews")]
         [HttpGet]
         public HttpResponseMessage Get()

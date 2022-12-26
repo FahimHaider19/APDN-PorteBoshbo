@@ -35,5 +35,6 @@ namespace DAL.EF
         public virtual DbSet<Topic> Topics { get; set; }
         public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<UserTopic> UserTopics { get; set; }
+        public virtual DbSet<Token> Tokens { get; set; }
     }
 }

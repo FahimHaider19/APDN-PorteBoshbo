@@ -11,6 +11,21 @@ namespace PorteBoshbo.Controllers
 {
     public class CourseController : ApiController
     {
+        [Route("api/courses/update")]
+        [HttpOptions]
+        public HttpResponseMessage UpdateOptions()
+        {
+            return new HttpResponseMessage { StatusCode = HttpStatusCode.OK };
+        }
+        [Route("api/courses/add")]
+        [HttpOptions]
+        public HttpResponseMessage AddOptions()
+        {
+            return new HttpResponseMessage { StatusCode = HttpStatusCode.OK };
+        }
+
+
+
         [Route("api/courses")]
         [HttpGet]
         public HttpResponseMessage Get()

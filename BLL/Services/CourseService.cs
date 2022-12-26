@@ -55,5 +55,18 @@ namespace BLL.Services
         {
             return DataAccessFactory.CourseDataAccess().Remove(id);
         }
+
+        public static int total()
+        {
+            var courses = new List<CourseDTO>();
+            int total = 0;
+            var coursedb = DataAccessFactory.CourseDataAccess().GetAll();
+            foreach (var course in coursedb)
+            {
+                total++;
+
+            }
+            return total;
+        }
     }
 }

@@ -1,6 +1,5 @@
 ﻿using BLL.DTOs;
 using BLL.Services;
-using Microsoft.AspNetCore.Cors;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +11,21 @@ namespace PorteBoshbo.Controllers
 {
     public class DepartmentController : ApiController
     {
+        [Route("api/departments/update")]
+        [HttpOptions]
+        public HttpResponseMessage UpdateOptions()
+        {
+            return new HttpResponseMessage { StatusCode = HttpStatusCode.OK };
+        }
+        [Route("api/departments/add")]
+        [HttpOptions]
+        public HttpResponseMessage AddOptions()
+        {
+            return new HttpResponseMessage { StatusCode = HttpStatusCode.OK };
+        }
+
+
+
         [Route("api/departments")]
         [HttpGet]
         public HttpResponseMessage Get()
@@ -40,7 +54,6 @@ namespace PorteBoshbo.Controllers
             return Request.CreateResponse(HttpStatusCode.InternalServerError);
         }
 
-        [EnableCors("*, *, *, *")]
         [Route("api/departments/update")]
         [HttpPost]
         public HttpResponseMessage Update(DepartmentDTO department)

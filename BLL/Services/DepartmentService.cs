@@ -55,6 +55,18 @@ namespace BLL.Services
         {
             return DataAccessFactory.DepartmentDataAccess().Remove(id);
         }
-        
+
+        public static int total()
+        {
+            var departments = new List<DepartmentDTO>();
+            int total = 0;
+            var departmentdb = DataAccessFactory.DepartmentDataAccess().GetAll();
+            foreach (var Department in departmentdb)
+            {
+                total++;
+            }
+            return total;
+        }
+
     }
 }

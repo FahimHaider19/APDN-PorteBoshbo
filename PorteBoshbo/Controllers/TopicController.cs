@@ -11,6 +11,21 @@ namespace PorteBoshbo.Controllers
 {
     public class TopicController : ApiController
     {
+        [Route("api/topics/update")]
+        [HttpOptions]
+        public HttpResponseMessage UpdateOptions()
+        {
+            return new HttpResponseMessage { StatusCode = HttpStatusCode.OK };
+        }
+        [Route("api/topics/add")]
+        [HttpOptions]
+        public HttpResponseMessage AddOptions()
+        {
+            return new HttpResponseMessage { StatusCode = HttpStatusCode.OK };
+        }
+
+
+
         [Route("api/topics")]
         [HttpGet]
         public HttpResponseMessage Get()
@@ -61,6 +76,14 @@ namespace PorteBoshbo.Controllers
 
             }
             return Request.CreateResponse(HttpStatusCode.InternalServerError);
+        }
+
+        [Route("api/topics/teacher/{id}")]
+        [HttpGet]
+        public HttpResponseMessage GetUserTopics(int id)
+        {
+            var data = TopicService.GetUserTopics(id);
+            return Request.CreateResponse(HttpStatusCode.OK, data);
         }
     }
 }

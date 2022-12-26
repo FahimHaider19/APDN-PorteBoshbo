@@ -69,6 +69,16 @@
           <Property Name="version" Type="int" />
           <Property Name="definition" Type="varbinary(max)" />
         </EntityType>
+        <EntityType Name="Tokens">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="AccessToken" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="CreatedAt" Type="datetime" Nullable="false" />
+          <Property Name="ExpiredAt" Type="datetime" />
+        </EntityType>
         <EntityType Name="Topic">
           <Key>
             <PropertyRef Name="TopicId" />
@@ -175,6 +185,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Tokens_User">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="Tokens" Type="Self.Tokens" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="Tokens">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Topic_Course">
           <End Role="Course" Type="Self.Course" Multiplicity="0..1" />
           <End Role="Topic" Type="Self.Topic" Multiplicity="*" />
@@ -267,6 +289,7 @@
           <EntitySet Name="Review" EntityType="Self.Review" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Session" EntityType="Self.Session" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tokens" EntityType="Self.Tokens" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Topic" EntityType="Self.Topic" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserTopic" EntityType="Self.UserTopic" Schema="dbo" store:Type="Tables" />
@@ -293,6 +316,10 @@
           <AssociationSet Name="FK_Session_Teacher" Association="Self.FK_Session_Teacher">
             <End Role="User" EntitySet="User" />
             <End Role="Session" EntitySet="Session" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tokens_User" Association="Self.FK_Tokens_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="Tokens" EntitySet="Tokens" />
           </AssociationSet>
           <AssociationSet Name="FK_Topic_Course" Association="Self.FK_Topic_Course">
             <End Role="Course" EntitySet="Course" />
@@ -440,6 +467,7 @@
           <NavigationProperty Name="Sessions" Relationship="Self.FK_Session_Student" FromRole="User" ToRole="Session" />
           <NavigationProperty Name="Sessions1" Relationship="Self.FK_Session_Teacher" FromRole="User" ToRole="Session" />
           <NavigationProperty Name="UserTopics" Relationship="PorteBoshboModel.FK_UserTopic_User" FromRole="User" ToRole="UserTopic" />
+          <NavigationProperty Name="Tokens" Relationship="PorteBoshboModel.FK_Tokens_User" FromRole="User" ToRole="Token" />
         </EntityType>
         <Association Name="FK_Topic_Course">
           <End Role="Course" Type="Self.Course" Multiplicity="0..1" />
@@ -636,6 +664,11 @@
             <End Role="User" EntitySet="Users" />
             <End Role="UserTopic" EntitySet="UserTopics" />
           </AssociationSet>
+          <EntitySet Name="Tokens" EntityType="PorteBoshboModel.Token" />
+          <AssociationSet Name="FK_Tokens_User" Association="PorteBoshboModel.FK_Tokens_User">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Token" EntitySet="Tokens" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="UserTopic">
           <Key>
@@ -668,6 +701,29 @@
             </Principal>
             <Dependent Role="UserTopic">
               <PropertyRef Name="TeacherId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Token">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <Property Name="AccessToken" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedAt" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ExpiredAt" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="User" Relationship="PorteBoshboModel.FK_Tokens_User" FromRole="Token" ToRole="User" />
+        </EntityType>
+        <Association Name="FK_Tokens_User">
+          <End Type="PorteBoshboModel.User" Role="User" Multiplicity="1" />
+          <End Type="PorteBoshboModel.Token" Role="Token" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="Token">
+              <PropertyRef Name="UserId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -781,6 +837,17 @@
               <MappingFragment StoreEntitySet="UserTopic">
                 <ScalarProperty Name="TeacherId" ColumnName="TeacherId" />
                 <ScalarProperty Name="TopicId" ColumnName="TopicId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tokens">
+            <EntityTypeMapping TypeName="PorteBoshboModel.Token">
+              <MappingFragment StoreEntitySet="Tokens">
+                <ScalarProperty Name="ExpiredAt" ColumnName="ExpiredAt" />
+                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+                <ScalarProperty Name="AccessToken" ColumnName="AccessToken" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

@@ -43,10 +43,12 @@ namespace BLL.Services
         }
         public static List<TopicDTO> GetUserTopics(int userId)
         {
+            var usertopics = DataAccessFactory.UserTopicDataAccess().GetUserTopic(userId);
             var topics = new List<TopicDTO>();
-            var topicdb = DataAccessFactory.TopicDataAccess().GetAll();
-            foreach (var topic in topicdb)
+            
+            foreach (var t in usertopics)
             {
+                var topic = DataAccessFactory.TopicDataAccess().Get(t.TopicId);
                 topics.Add(new TopicDTO()
                 {
                     TopicId = topic.TopicId,
@@ -84,6 +86,19 @@ namespace BLL.Services
         public static bool Delete(int id)
         {
             return DataAccessFactory.TopicDataAccess().Remove(id);
+        }
+
+        public static int total()
+        {
+
+            int total = 0;
+            var topics = new List<TopicDTO>();
+            var topicdb = DataAccessFactory.TopicDataAccess().GetAll();
+            foreach (var topic in topicdb)
+            {
+                total++;
+            }
+            return total;
         }
     }
 }

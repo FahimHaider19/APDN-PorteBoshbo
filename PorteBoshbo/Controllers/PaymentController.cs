@@ -11,6 +11,21 @@ namespace PorteBoshbo.Controllers
 {
     public class PaymentController : ApiController
     {
+        [Route("api/payments/update")]
+        [HttpOptions]
+        public HttpResponseMessage UpdateOptions()
+        {
+            return new HttpResponseMessage { StatusCode = HttpStatusCode.OK };
+        }
+        [Route("api/payments/add")]
+        [HttpOptions]
+        public HttpResponseMessage AddOptions()
+        {
+            return new HttpResponseMessage { StatusCode = HttpStatusCode.OK };
+        }
+
+
+
         [Route("api/payments")]
         [HttpGet]
         public HttpResponseMessage Get()

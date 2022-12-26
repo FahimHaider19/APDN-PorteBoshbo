@@ -52,7 +52,7 @@ namespace BLL.Services
                 Role = userdb.Role,
                 Balance = (double)userdb.Balance,
                 Department = DepartmentService.Get((int)userdb.DepartmentId),
-                EducationLevel = EducationLevelService.Get((int)userdb.DepartmentId),
+                EducationLevel = EducationLevelService.Get((int)userdb.EducationLevelId),
                 ReceivedPayments = PaymentService.ReceivedPayments(userdb.UserId),
                 PaidPayments = PaymentService.PaidPayments(userdb.UserId),
                 ReceivedReviews = ReviewService.ReceivedReviews(userdb.UserId),
@@ -112,6 +112,21 @@ namespace BLL.Services
         public static bool Delete(int id)
         {
             return DataAccessFactory.UserDataAccess().Remove(id);
+        }
+
+        public static int total()
+        {
+            int total = 0;
+            var users = new List<UserDTO>();
+            var userdb = DataAccessFactory.UserDataAccess().GetAll();
+            foreach (var user in userdb)
+            {
+                if (user.Role == "User")
+                {
+                    total++;
+                }
+            }
+            return total;
         }
     }
 }

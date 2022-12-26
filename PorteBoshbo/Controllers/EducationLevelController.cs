@@ -11,6 +11,21 @@ namespace PorteBoshbo.Controllers
 {
     public class EducationLevelController : ApiController
     {
+        [Route("api/educationLevels/update")]
+        [HttpOptions]
+        public HttpResponseMessage UpdateOptions()
+        {
+            return new HttpResponseMessage { StatusCode = HttpStatusCode.OK };
+        }
+        [Route("api/educationLevels/add")]
+        [HttpOptions]
+        public HttpResponseMessage AddOptions()
+        {
+            return new HttpResponseMessage { StatusCode = HttpStatusCode.OK };
+        }
+
+
+
         [Route("api/educationLevels")]
         [HttpGet]
         public HttpResponseMessage Get()

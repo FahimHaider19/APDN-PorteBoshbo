@@ -35,7 +35,7 @@ namespace DAL.Repos
                               select ut).ToList();
             foreach(var usertopic in usertopics) 
             {
-                topics.Add(db.Topics.Find(usertopic.TeacherId));
+                topics.Add(db.Topics.Find(usertopic.TopicId));
             }
             return topics;
         }

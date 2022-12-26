@@ -11,6 +11,21 @@ namespace PorteBoshbo.Controllers
 {
     public class SessionController : ApiController
     {
+        [Route("api/sessions/update")]
+        [HttpOptions]
+        public HttpResponseMessage UpdateOptions()
+        {
+            return new HttpResponseMessage { StatusCode = HttpStatusCode.OK };
+        }
+        [Route("api/sessions/add")]
+        [HttpOptions]
+        public HttpResponseMessage AddOptions()
+        {
+            return new HttpResponseMessage { StatusCode = HttpStatusCode.OK };
+        }
+
+
+
         [Route("api/sessions")]
         [HttpGet]
         public HttpResponseMessage Get()

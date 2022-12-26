@@ -110,5 +110,27 @@ namespace BLL.Services
         {
             return DataAccessFactory.ReviewDataAccess().Remove(id);
         }
+
+        public static List<ReviewDTO> top()
+        {
+
+            var reviews = new List<ReviewDTO>();
+            var reviewdb = DataAccessFactory.ReviewDataAccess().GetAll();
+            var sortedrating = from s in reviewdb
+                               orderby s.Rating descending
+                               select s;
+
+            foreach (var review in sortedrating)
+            {
+                reviews.Add(new ReviewDTO()
+                {
+                    Rating = (double)review.Rating,
+                    Teacher = UserService.GetShort((int)review.TeacherId),
+
+                });
+
+            }
+            return reviews;
+        }
     }
 }

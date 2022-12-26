@@ -6,11 +6,29 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Web.Security;
+using PorteBoshbo.Auth;
 
 namespace PorteBoshbo.Controllers
 {
     public class UserController : ApiController
     {
+        [Route("api/users/update")]
+        [HttpOptions]
+        public HttpResponseMessage UpdateOptions()
+        {
+            return new HttpResponseMessage { StatusCode = HttpStatusCode.OK };
+        }
+        [Route("api/users/add")]
+        [HttpOptions]
+        public HttpResponseMessage AddOptions()
+        {
+            return new HttpResponseMessage { StatusCode = HttpStatusCode.OK };
+        }
+
+
+
+        [CustomAuth(Roles="user")]
         [Route("api/users")]
         [HttpGet]
         public HttpResponseMessage Get()
@@ -62,6 +80,11 @@ namespace PorteBoshbo.Controllers
 
             }
             return Request.CreateResponse(HttpStatusCode.InternalServerError);
+        }
+
+        internal static object GetShort()
+        {
+            throw new NotImplementedException();
         }
     }
 }

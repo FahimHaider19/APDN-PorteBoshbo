@@ -11,6 +11,16 @@ namespace DAL
 {
     public class DataAccessFactory
     {
+        static PorteBoshboEntities db = new PorteBoshboEntities();
+        public static IRepository<Token, string> TokenDataAccess()
+        {
+            return new TokenRepo(db);
+        }
+        public static IAuth AuthDataAccess()
+        {
+            return new AuthRepo(db);
+        }
+
         public static IRepo<Course> CourseDataAccess()
         {
             return new CourseRepo();
@@ -55,6 +65,11 @@ namespace DAL
         public static IRepo<User> UserDataAccess()
         {
             return new UserRepo();
+        }
+
+        public static IUserTopic UserTopicDataAccess()
+        {
+            return new UserTopicsRepo();
         }
     }
 }
